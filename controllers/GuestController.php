@@ -1,24 +1,25 @@
 <?php
-include_once 'config/Database.php';
-include_once 'models/Guest.php';
+require_once '../config/Database.php';
+require_once '../models/Guest.php';
 
 class GuestController {
     private $guest;
 
     public function __construct() {
-        $database = new Database();
-        $db = $database->getConnection();
-        $this->guest = new Guest($db);
+        $db = new Database();
+        $conn = $db->connect();
+        $this->guest = new Guest($conn);
     }
 
-    public function create($name, $comment) {
-        $this->guest->name = $name;
-        $this->guest->comment = $comment;
-        return $this->guest->create();
+    public function getGuestById($id) {
+        return $this->guest->getGuestById($id);
     }
 
-    public function readAll() {
-        return $this->guest->readAll();
+    public function updateGuest($id, $name, $comment) {
+        return $this->guest->updateGuest($id, $name, $comment);
+    }
+
+    public function deleteGuest($id) {
+        return $this->guest->deleteGuest($id);
     }
 }
-?>
