@@ -1,15 +1,27 @@
-<h3>Daftar Komentar</h3>
-<table border="1">
+<head>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<h3>Guests List</h3>
+<table>
     <tr>
-        <th>Nama</th>
-        <th>Komentar</th>
-        <th>Waktu</th>
+        <th>Name</th>
+        <th>Comment</th>
+        <th>Time</th>
     </tr>
-    <?php while ($row = $guests->fetch(PDO::FETCH_ASSOC)) { ?>
-    <tr>
-        <td><?php echo htmlspecialchars($row['name']); ?></td>
-        <td><?php echo htmlspecialchars($row['comment']); ?></td>
-        <td><?php echo $row['created_at']; ?></td>
-    </tr>
-    <?php } ?>
+    <?php foreach ($guests as $guest): ?>
+        <tr>
+            <td><?php echo htmlspecialchars($guest['name']); ?></td>
+            <td><?php echo htmlspecialchars($guest['comment']); ?></td>
+            <td><?php echo htmlspecialchars($guest['created_at']); ?></td>
+        </tr>
+    <?php endforeach; ?>
 </table>
+
+<!-- Pagination -->
+<?php if ($totalPages > 1): ?>
+    <div>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+    </div>
+<?php endif; ?>

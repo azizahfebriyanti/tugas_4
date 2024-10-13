@@ -1,38 +1,47 @@
 <?php
 class Guest {
     private $conn;
-    private $table_name = "guests";
-
-    public $id;
-    public $name;
-    public $comment;
-    public $created_at;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET name=:name, comment=:comment";
+    public function addGuest($name, $comment) {
+        $query = 'INSERT INTO guests (name, comment) VALUES (:name, :comment)';
         $stmt = $this->conn->prepare($query);
-
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->comment = htmlspecialchars(strip_tags($this->comment));
-
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":comment", $this->comment);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':comment', $comment);
+        return $stmt->execute();
     }
 
-    public function readAll() {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY created_at DESC";
+    public function getGuests() {
+        $query = 'SELECT * FROM guests ORDER BY created_at DESC';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
-        return $stmt;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getGuestById($id) {
+        $query = 'SELECT * FROM guests WHERE id = :id LIMIT 1';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateGuest($id, $name, $comment) {
+        $query = 'UPDATE guests SET name = :name, comment = :comment WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':comment', $comment);
+        return $stmt->execute();
+    }
+
+    public function deleteGuest($id) {
+        $query = 'DELETE FROM guests WHERE id = :id';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 }
-?>

@@ -1,10 +1,10 @@
-<h2>Buku Tamu</h2>
-<form action="index.php" method="POST">
-    <label for="name">Nama:</label>
-    <input type="text" name="name" required><br>
-
-    <label for="comment">Komentar:</label>
-    <textarea name="comment" required></textarea><br>
-
-    <input type="submit" value="Kirim">
+<head>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<form method="POST" action="">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="comment">Comment:</label>
+    <textarea id="comment" name="comment" rows="5" required></textarea>
+    <input type="submit" value="Send">
 </form>
